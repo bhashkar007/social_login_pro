@@ -77,8 +77,8 @@ class Google_IO_Curl extends Google_IO_Abstract
     }
 
 	// SET PROXY
-	$proxy = "ots-rhel5-proxy-01.outreach.psu.edu:8080";
-	curl_setopt($curl, CURLOPT_PROXY, $proxy);
+	$proxy = "YOUR PROXY:PORT";
+	curl_setopt($ch, CURLOPT_PROXY, $proxy);
 
     $response = curl_exec($curl);
     if ($response === false) {

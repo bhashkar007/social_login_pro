@@ -103,7 +103,7 @@ class google_oauth
         }
 
         // SET PROXY
-		$proxy = "ots-rhel5-proxy-01.outreach.psu.edu:8080";
+		$proxy = "YOUR PROXY:PORT";
 		curl_setopt($ch, CURLOPT_PROXY, $proxy);
 
 

@@ -165,7 +165,7 @@ class facebook_oauth
         curl_setopt($ch, CURLOPT_HTTPHEADER, array($auth));
 
          // SET PROXY
-		$proxy = "ots-rhel5-proxy-01.outreach.psu.edu:8080";
+		$proxy = "YOUR PROXY:PORT";
 		curl_setopt($ch, CURLOPT_PROXY, $proxy);
 
         $response = curl_exec($ch);
