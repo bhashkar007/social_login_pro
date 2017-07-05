@@ -12,7 +12,7 @@ class google_oauth
 
     //This should be changed to correspond with the
     //google service you are authenticating against.
-    const SCOPE         = 'https://www.googleapis.com/auth/plus.login email'; 
+    const SCOPE         = 'https://www.googleapis.com/auth/plus.login email';
 
     //Array that should contain the consumer secret and
     //key which should be passed into the constructor.
@@ -45,7 +45,7 @@ class google_oauth
     public function get_access_token($callback = false, $secret = false)
     {
         $baseurl = self::SCHEME.'://'.self::HOST.self::ACCESS_URI;
-        
+
         if($secret !== false)$tokenddata['oauth_token_secret'] = urlencode($secret);
 
         $data_str = "client_id=".$this->_consumer['key']."&redirect_uri=".urlencode($callback)."&client_secret=".$this->_consumer['secret']."&code=".urlencode($secret)."&grant_type=authorization_code";
@@ -65,15 +65,15 @@ class google_oauth
             $json = new Services_JSON();
             $a = $json->decode($response);
         }
-        
+
         if (strpos($response, 'error')!==false)
         {
             $oauth['oauth_problem'] = $a->error;
-        } 
+        }
         else
-        {                            
-            $oauth['access_token'] = $a->access_token;        
-        }   
+        {
+            $oauth['access_token'] = $a->access_token;
+        }
 
         //Return the token and secret for storage
         return $oauth;
@@ -95,25 +95,31 @@ class google_oauth
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array($auth));
-        
+
         if ($data!==false)
         {
             curl_setopt($ch,CURLOPT_POST,true);
             curl_setopt($ch,CURLOPT_POSTFIELDS,$data);
         }
 
+        // SET PROXY
+		$proxy = "ots-rhel5-proxy-01.outreach.psu.edu:8080";
+		curl_setopt($ch, CURLOPT_PROXY, $proxy);
+
+
         $response = curl_exec($ch);
         curl_close($ch);
+
         return $response;
     }
-    
+
     function get_user_data($response = array())
     {
         $access_token = $response['access_token'];
         $baseurl = "https://www.googleapis.com/plus/v1/people/me?access_token=".$access_token;
 
         $response = $this->_connect($baseurl, '');
-       
+
         if (function_exists('json_decode'))
         {
             $rawdata = json_decode($response);
@@ -123,8 +129,8 @@ class google_oauth
             require_once(PATH_THIRD.'social_login_pro/libraries/inc/JSON.php');
             $json = new Services_JSON();
             $rawdata = $json->decode($response);
-        }               
-        
+        }
+
 
         $data = array();
         $data['screen_name'] = $rawdata->displayName;
@@ -136,8 +142,8 @@ class google_oauth
                 break;
             }
         }
-        
-        
+
+
         $data['url'] = $rawdata->url;
         $data['avatar'] = $rawdata->image->url;
         $data['photo'] = $rawdata->image->url.'0';
@@ -146,37 +152,37 @@ class google_oauth
         $username = explode("@", $data['email']);
         $data['username'] = $username[0];
         if ($data['screen_name']=='') $data['screen_name'] = $data['username'];
-        
-        $data['custom_field'] = $data['email'];  
+
+        $data['custom_field'] = $data['email'];
         $data['alt_custom_field'] = $rawdata->id;
         $data['status_message'] = '';
-        $data['bio'] = '';   
+        $data['bio'] = '';
         $data['occupation'] = $rawdata->occupation;
         $data['timezone'] = '';
-        
+
         $data['full_name'] = $rawdata->displayName;
         $data['first_name'] = $rawdata->name->givenName;
         $data['last_name'] = $rawdata->name->familyName;
         $data['gender'] = $rawdata->gender;
-                        
+
         return $data;
     }
-    
+
     function start_following($username='', $response = array())
     {
         return false;
-    }    
-    
+    }
+
     function post($message, $url, $oauth_token='', $oauth_token_secret='', $xtra=array())
     {
         /*
         set_include_path(PATH_THIRD.'social_login_pro/google-api-php-client/' . PATH_SEPARATOR . get_include_path());
-        
+
         require_once 'Google/Client.php';
         require_once 'Google/Service/Plus.php';
-        
+
         $baseurl = "https://www.googleapis.com/plus/v1/people/me/moments/vault?access_token=".$oauth_token;
-        
+
         $plus = new Google_Client();
         $client->setApplicationName("Client_Library_Examples");
         $apiKey = "<YOUR_API_KEY>";
@@ -191,11 +197,11 @@ class google_oauth
         $item_scope->setUrl($url);
         $moment_body->setTarget($item_scope);
         $momentResult = $plus->moments->insert('me', 'vault', $moment_body);
-        
 
-        
-        var_dump($momentResult);    
-        
+
+
+        var_dump($momentResult);
+
         $google_client = new \Google_Client;
 $google_client->setClientId(GOOGLE_CLIENT_ID);
 $google_client->setClientSecret(GOOGLE_CLIENT_SECRET);
@@ -205,20 +211,20 @@ $google_client->setAccessType = 'offline';
 
 // Either call:
 //     $google_client->authenticate($auth_code);
-// with the $auth_code returned by the auth page or 
+// with the $auth_code returned by the auth page or
 //     $google_client->setAccessToken($existing_token);
 // with a previously generated access token.
 
 $plus = new \Google_Service_Plus($google_client);
 $person = $plus->people->get('me');
-        
+
         */
 
 
         return true;
-   
+
     }
-    
+
 }
 // ./system/application/libraries
 ?>

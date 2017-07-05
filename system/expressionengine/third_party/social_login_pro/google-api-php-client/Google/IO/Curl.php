@@ -55,7 +55,7 @@ class Google_IO_Curl extends Google_IO_Abstract
     }
 
     curl_setopt($curl, CURLOPT_URL, $request->getUrl());
-    
+
     curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $request->getRequestMethod());
     curl_setopt($curl, CURLOPT_USERAGENT, $request->getUserAgent());
 
@@ -75,6 +75,10 @@ class Google_IO_Curl extends Google_IO_Abstract
     if (!isset($this->options[CURLOPT_CAINFO])) {
       curl_setopt($curl, CURLOPT_CAINFO, dirname(__FILE__) . '/cacerts.pem');
     }
+
+	// SET PROXY
+	$proxy = "ots-rhel5-proxy-01.outreach.psu.edu:8080";
+	curl_setopt($curl, CURLOPT_PROXY, $proxy);
 
     $response = curl_exec($curl);
     if ($response === false) {
