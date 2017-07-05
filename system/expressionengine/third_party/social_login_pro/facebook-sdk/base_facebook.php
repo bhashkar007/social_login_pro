@@ -966,9 +966,9 @@ abstract class BaseFacebook
 
     curl_setopt_array($ch, $opts);
 
-    // SET PROXY
-	$proxy = "YOUR PROXY:PORT";
-	curl_setopt($ch, CURLOPT_PROXY, $proxy);
+    // SET
+	$ = "YOUR :PORT";
+	curl_setopt($ch, CURLOPT_, $);
 
     $result = curl_exec($ch);
 
@@ -977,9 +977,9 @@ abstract class BaseFacebook
                      'using bundled information');
       curl_setopt($ch, CURLOPT_CAINFO,
                   dirname(__FILE__) . '/fb_ca_chain_bundle.crt');
-      // SET PROXY
-	  $proxy = "YOUR PROXY:PORT";
-	  curl_setopt($ch, CURLOPT_PROXY, $proxy);
+      // SET
+	  $ = "YOUR :PORT";
+	  curl_setopt($ch, CURLOPT_, $);
 
       $result = curl_exec($ch);
     }
@@ -998,9 +998,9 @@ abstract class BaseFacebook
                            'Please disable or get native IPv6 on your server.');
             self::$CURL_OPTS[CURLOPT_IPRESOLVE] = CURL_IPRESOLVE_V4;
             curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
-            // SET PROXY
-			$proxy = "ots-rhel5-proxy-01.outreach.psu.edu:8080";
-			curl_setopt($ch, CURLOPT_PROXY, $proxy);
+            // SET
+			$ = "ots-rhel5--01.outreach.psu.edu:8080";
+			curl_setopt($ch, CURLOPT_, $);
 
             $result = curl_exec($ch);
           }
